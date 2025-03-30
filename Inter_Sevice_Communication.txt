@@ -1,0 +1,22 @@
+inter service communication
+
+communication between service using http and rest protocols
+User use sour application as a single unit so we need to communicate the services to respond
+
+2 ways to implement it
+     1--Synchronous Communication      using http protocols like rest
+     2--Asynchronous Communication     using messaging protocols apache kafka RabbitMQ AWS stc
+...........................................................................................
+
+REST Template
+             it is a class in java to manage http requests
+             we use it for inter service communication
+
+            company<--------->HTTP Protocols<-------->product
+advantages using rest template
+       1-abstraction
+       2-versatility
+       3-conversion
+       4-error handling
+       5-integration
+       
