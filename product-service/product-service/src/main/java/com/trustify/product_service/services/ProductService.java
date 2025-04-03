@@ -7,6 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Optional;
+
 @Service
 public class ProductService {
     @Autowired
@@ -22,6 +25,22 @@ public class ProductService {
         }
 
 
+    }
+
+    public ResponseEntity<List<Product>> getProduct(long id) {
+        try {
+           List<Product> productList=productRepo.findByManufacturerId(id);
+           if(productList.isEmpty()){
+               return ResponseEntity.notFound().build();
+           }
+           return ResponseEntity.ok(productList);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().build();
+        }
+
 
     }
+
 }
