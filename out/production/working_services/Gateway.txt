@@ -1,0 +1,18 @@
+Gateway
+it will provide all the routing to communicate the service using service registry
+we can access the service using service name
+so for example if we change the api name(we use in rest template) to product-service it will not work
+because the RestTemplate is not load balanced
+so how we can do this
+
+we need to create a Class AppConfig
+we create a method that returns RestTemplate pbject
+add @Bean
+and @LoadBalanced
+
+and we change the localhost to Product-Service in api call
+now it will work
+
+
+
+

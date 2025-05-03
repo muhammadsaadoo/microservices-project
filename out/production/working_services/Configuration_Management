@@ -1,0 +1,80 @@
+Configuration Management
+Manages all services configuration from a centralised system or single file rather than individual service
+
+auth MS ----------|       spring cloud
+Product MS ------|           config  ---------  Git
+Manufacturer MS--|           server
+
+all the configurations are centralised and version controlled
+dynami updates
+security
+profile specific configurations(dev and prod)
+easy to deploy
+........................................................................
+Spring Cloud Config Server
+it store confi
+serving conf
+refreshing conf
+
+
+service start <<---->>config server <------>git
+service go to config server for configurations
+config server goto git for configurations
+
+.........................................................
+Implementation
+spring cloud  config
+create a new spring project
+add dependency config server ,eureka doscovery client
+
+make it eurika client
+@EnableConfigServer add annotaion to mian class
+..............................
+now we setup a git repository
+create a github repo
+reate a file application.properties in github
+we use this file in our config-server
+add url in applicayion.properties of github
+spring.cloud.config.serer.git.uri= git repo url
+access-->  http://localhost:8084/application/default
+
+..............................
+now we are going to use the config-server for fetching the properties for other microservices
+so we need to add dependency in the service whose properties we need to gte (manufcaturer service)
+config Client dependency
+add a property in app.properties
+spring.config.import= config server: url of config server(localhost:8084)
+its mean import the configurtions from configserver url is the path to config server
+commented the application name in config file
+add it in github repo
+you can also add profile (dev and prod) in github
+.....................................................
+what happened if our config server is not running
+application will  not start
+so we can make config server configurations as an optional
+spring.config.import= optional:configserver: url of config server(localhost:8084)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

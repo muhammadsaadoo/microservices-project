@@ -1,0 +1,90 @@
+created microservices
+.......................authdervice.........
+build businesslogic
+connect to postgresql
+creeate docjer image
+now use postgres images for containerization
+steps
+1-we need 2 images for connection of postgresql
+  a-postgresql
+  b-pgadmin
+we pull th postgrsql image
+  command -->  docker run -d --name db -e POSTGRES_PASSWORD=123 postgres
+  container will be running after download the image running with the name db
+we pull the pgadmin image
+    command -->  docker run -d --name pgadmin -e PGADMIN_DEFAULT_EMAIL=admin@admin.com -e PGADMIN_DEFAULT_PASSWORD=123 dpage/pgadmin4
+now e have 2 containers running(postgresql and pgadmin)
+now trying to communicate with each other
+  ..command--> docker exec -it pgadmin ping db
+but they cannot communicate with ach other
+remove both containers
+  ..command--> docker rm -f db pgadmin
+so we use docker network
+ ..create network
+      command--> docker network create my-network
+ ..run containers using docker network
+      command-->   docker run -d --name db --network my-network -e POSTGRES_PASSWORD=123 postgres
+      command -->  docker run -d --name pgadmin --network my-network -e PGADMIN_DEFAULT_EMAIL=admin@admin.com -e PGADMIN_DEFAULT_PASSWORD=123 dpage/pgadmin4
+
+
+now trying to communicate with each other
+  ..command--> docker exec -it pgadmin ping db
+ping successfull
+
+Docker network Summary
+                      for example i our case the pgadmin need postgres to use admin tools nut
+                      they are running on different containers so they cant communicate with each other
+                       so to sort out this problem Docker Networks comes
+
+so we use new commands for proper setup to use both
+
+run postgres
+  ..command-->  docker run -d \
+                   --name postgres_container \
+                   -e POSTGRES_USER=saad \
+                   -e POSTGRES_PASSWORD=123 \
+                   -e PGDATA=/data/postgres \
+                   -v postgres:/data/postgres \
+                   -p 5432:5432 \
+                   --network postgres \
+                   --restart unless-stopped \
+                   postgres
+run ppgadmin
+  ..command-->  docker run -d \
+                                   --name pgadmin_container \
+                                   -e PGADMIN_DEFAULT_EMAIL=pgadmin@pgadmin.com \
+                                   -e PGADMIN_DEFAULT_PASSWORD=admin \
+                                   -e PGADMIN_CONFIG_SERVER_MODE=false \
+                                   -v pgadmin:/var/lib/pgadmin  \
+                                   -p 5050:80 \
+                                   --network postgres \
+                                   --restart unless-stopped \
+                                   dpage/pgadmin
+
+Docker Compose
+      it is a tool for defining and managing the multi_container Applications
+how can we use it
+        we have to create a docker compose file its a yml file so we write all the configurations on that file
+        in single file we can manage all about docker create manage volumes env variavles and much more
+
+so create a docker-compose.yaml in projec root directory
+
+then run the command
+  ..command--> docker compose up -d
+    -d for run in detached mode
+
+for view the logs of container we have to run the command
+  ..command--> docker logs postgres_container(container name)
+
+now we access pgadmin from browser on  localhost:5050
+then we setup a server add cradentials and ceeate a database
+ /////////////////////////////
+now letus run our application on docker using postgres containers
+
+build image
+./mvnw spring-boot:build-image -Dspring.profiles.active=dev "-Dspring-boot.build-image.imageName=muhammadsaadoo/haircareai_backend_docker_image"
+
+creteate the image using the commands
+now run app using docker network
+
+docker run --network=postgres --name auth-service -p 8080:8080 -e SPRING_PROFILES_ACTIVE=dev muhammadsaadoo/auth-service

@@ -17,6 +17,7 @@ public class CompanyDocument {
     @Column(nullable = false)
     private String documentUrl;
 
+
     @ManyToOne
     @JoinColumn(name = "manufacturer_id", nullable = false)
     private Manufacturer manufacturer;

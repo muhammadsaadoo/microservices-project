@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/manufacturer-details")
+@RequestMapping("/manufacturer/manufacturer-details")
 public class ISCManufacturerProductController {
 
     @Autowired

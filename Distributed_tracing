@@ -1,0 +1,81 @@
+Distributed Tracing
+it is used to trace api request(http request) in Distributed system from start to end without logging
+for example
+           we have a request that will traverse over 40 to 50 microservices
+           so how we can track this
+           we need to log each service to track it but its overhead
+           so we use distributed tracing to trace a request in microservices
+           we can trace duration,  error analysis and debugging of request in each service
+           also track the Dependencies
+           performance optimization
+
+what tool should we use?
+ZIPKIN
+its distributed tracing system
+
+microservice-->|collector--->Storage--search---visualization|
+
+client send request-->M1------>M2--------->M3
+span id              sid       sid         sid         for each service
+Trace id----------------------Trace Id----->>>>>>      for whole request
+
+span used to trace time matadata work done etc on each service
+but trace tells the whole request trace
+
+                  trace
+               span    span
+trace is parents and span is child
+
+Implementation
+
+1st way
+download zipkin jar file from zipkin.com (read docs)
+run it from cmd
+and access it from localhost
+
+2nd way
+BUT
+we can use it from docker
+run command to pull the image (command from zipkin quick start tab)
+run on localhost
+then configure docker compose to manage it
+
+Micrometer
+it is a middleman between application and metrics collection system(gives us app info)
+it gives us interface for measure different aspects of application like
+resource utilization time constraints response time etc
+
+implement ZIPKIN in our app
+add dependency zipkin
+we need 2 dependencies
+if you are using open feign we need to add one more dependency
+fain micrometer
+also actuator dependency
+                <dependency>
+                    <groupId>io.micrometer</groupId>
+                    <artifactId>micrometer-tracing-bridge-brave</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>io.zipkin.reporter2</groupId>
+                    <artifactId>zipkin-reporter-brave</artifactId>
+                </dependency>
+                <dependency>
+                  			<groupId>io.github.openfeign</groupId>
+                  			<artifactId>feign-micrometer</artifactId>
+
+                </dependency>
+                <dependency>
+                      <groupId>org.springframework.boot</groupId>
+                      <artifactId>spring-boot-starter-actuator</artifactId>
+                </dependency>
+
+configure zipkin
+management.tracing.sampling.probability=1.0   //we are telling to trace  each and every request
+
+1.0 means every request will be traced
+0.5 means 50% requests will be traced
+
+
+http://127.0.0.1:9411/zipkin/
+
+

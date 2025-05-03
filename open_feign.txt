@@ -1,0 +1,23 @@
+OPEN FEIGN
+    it is a tool to use make requests to other microservice easily
+    we dont need the Rest template to communicating the service
+    it reduce code by using simple methods
+Advantages
+    1-ease of use
+    2-Integration with eureka
+    3-Built-in Load balancing with Ribbon .  ribbon is anoother netflix project
+                                             it provide client side load balancing
+    4-support for fall-back and circuit-breakers
+
+enable feign clients in our projects
+add dependency open feign
+        <dependency>
+              <groupId>org.springframework.cloud</groupId>
+              <artifactId>spring-cloud-starter-openfeign</artifactId>
+            </dependency>
+
+add @EnableFeignClients in main class on service
+now we change the api call from rest template to feign
+so we need clients package then create clients like productclient interface etc
+all setting up
+now our application is successfully run

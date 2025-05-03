@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/product-service")
+@RequestMapping("/products")
 public class ProductController {
 
     @Autowired
@@ -27,10 +27,11 @@ public class ProductController {
 
     }
 
-    @GetMapping("/get-product-by-manufacturer-id/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<List<Product>> getProductByManufacturerId(@PathVariable("id") long id){
 
 
+        System.out.println("api call.....................");
         return productService.getProduct(id);
 
 

@@ -1,5 +1,6 @@
 package com.trustify.manufacturer_service.services;
 
+import com.trustify.manufacturer_service.clients.ProductClient;
 import com.trustify.manufacturer_service.dto.ManufacturerProductDto;
 import com.trustify.manufacturer_service.entities.Manufacturer;
 import com.trustify.manufacturer_service.entities.product.Product;
@@ -15,8 +16,9 @@ import java.util.List;
 
 @Service
 public class ICSManufacturerProductService {
-
-
+    public ICSManufacturerProductService(ProductClient productClient) {
+        this.productClient = productClient;
+    }
 
     @Autowired
     private ManufacturerRepo manufacturerRepo;
@@ -24,10 +26,11 @@ public class ICSManufacturerProductService {
     @Autowired
     private ManufacturerService manufacturerService;
 
-    private final RestTemplate restTemplate;
-    public ICSManufacturerProductService(RestTemplate restTemplate) {
-        this.restTemplate = restTemplate;
-    }
+    @Autowired
+    private  RestTemplate restTemplate;
+
+    private ProductClient productClient;
+
 
     public ResponseEntity<?> getManufacturerDetails(long id) {
         ResponseEntity<Manufacturer> manufacturerResponse = manufacturerService.getManufacturer(id);
@@ -41,9 +44,9 @@ public class ICSManufacturerProductService {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Manufacturer not found");
         }
 
-        String productServiceUrl = "http://localhost:8082/product-service/get-product-by-manufacturer-id/" + id;
-        ResponseEntity<Product[]> productResponse = restTemplate.getForEntity(productServiceUrl, Product[].class);
-
+//        String productServiceUrl = "http://PRODUCT-SERVICE:8082/product-service/get-product-by-manufacturer-id/" + id;
+//        ResponseEntity<Product[]> productResponse = restTemplate.getForEntity(productServiceUrl, Product[].class);
+        ResponseEntity<Product[]> productResponse =productClient.getProduct(id);
         if (productResponse.getStatusCode() != HttpStatus.OK || productResponse.getBody() == null) {
             return ResponseEntity.status(productResponse.getStatusCode()).body("Product not found");
         }

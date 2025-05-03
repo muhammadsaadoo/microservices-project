@@ -3,6 +3,7 @@ package com.trustify.manufacturer_service.configurations;
 
 
 
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -81,7 +82,11 @@ public class SpringSecurityConfigurationsDev {
 //    public AuthenticationManager authenticationManager(AuthenticationConfiguration auth) throws Exception {
 //        return auth.getAuthenticationManager();
 //    }
+
+
+
 @Bean
+@LoadBalanced
 public RestTemplate restTemplate() {
     RestTemplate restTemplate = new RestTemplate();
     restTemplate.setErrorHandler(new ResponseErrorHandler() {

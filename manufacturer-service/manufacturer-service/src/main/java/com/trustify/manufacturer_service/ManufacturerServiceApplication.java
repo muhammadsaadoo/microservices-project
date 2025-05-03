@@ -2,11 +2,13 @@ package com.trustify.manufacturer_service;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.env.ConfigurableEnvironment;
 
 import java.util.Arrays;
 
+@EnableFeignClients
 @SpringBootApplication
 public class ManufacturerServiceApplication {
 

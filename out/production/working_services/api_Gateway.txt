@@ -1,0 +1,15 @@
+API Gateway
+single entry point for each request
+
+functions of apigateway
+request routing
+load balancing
+authentication and authorization
+rate limiting
+req and res transformation
+create a new project from spring initializer
+add dependencies
+      eurika discovery client
+      zipkin
+      gateway
+      

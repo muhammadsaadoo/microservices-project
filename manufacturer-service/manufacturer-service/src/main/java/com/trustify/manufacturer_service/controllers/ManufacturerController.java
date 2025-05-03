@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/manufacturer-service")
+@RequestMapping("/manufacturer/manufacturer-service")
 public class ManufacturerController {
 
     @Autowired

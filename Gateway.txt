@@ -1,0 +1,41 @@
+Gateway
+it will provide all the routing to communicate the service using service registry
+we can access the service using service name
+so for example if we change the api name(we use in rest template) to product-service it will not work
+because the RestTemplate is not load balanced
+so how we can do this
+
+we need to create a Class AppConfig
+we create a method that returns RestTemplate pbject
+add @Bean
+and @LoadBalanced
+
+and we change the localhost to Product-Service in api call
+now it will work
+
+http vs LB(load balanced)
+ lb means gate way would use spring cloud service discovery machanism to locate an instance of service
+when use lb the discovery(eurika server is used to locate or discover the servive)
+so you need to mention onlu service name
+
+lb is good when you run multiple instances of a service
+forexample you have 10 instancses of product mivsoservice
+so the requests are distributed evenly to all th einstances(if 10 request and 5 instances -->each has 2 req)
+so lb is good in such conditons
+practice-->
+  create a new instance of product service
+  goto edit configuratio
+  select the service
+  click copy icon right to th + -
+  name it
+  pass program arguments so we change the port
+  click modify options
+  add vm options
+  add arguments -Dserver.port=9082
+  apply
+  run it it will add in servies in mavin
+
+
+
+
+
