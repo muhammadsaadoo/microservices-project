@@ -5,12 +5,15 @@ import com.trustify.manufacturer_service.dto.ManufacturerProductDto;
 import com.trustify.manufacturer_service.entities.Manufacturer;
 import com.trustify.manufacturer_service.entities.product.Product;
 import com.trustify.manufacturer_service.repositories.ManufacturerRepo;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import io.github.resilience4j.retry.annotation.Retry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -30,9 +33,16 @@ public class ICSManufacturerProductService {
     private  RestTemplate restTemplate;
 
     private ProductClient productClient;
+     private int attempts=0;
 
 
+
+//    @CircuitBreaker(name="productBreaker",
+//            fallbackMethod="productBreakerFallback")
+@Retry(name="productRetry",
+            fallbackMethod="productBreakerFallback")
     public ResponseEntity<?> getManufacturerDetails(long id) {
+        System.out.println("attempt : "+ ++attempts);
         ResponseEntity<Manufacturer> manufacturerResponse = manufacturerService.getManufacturer(id);
 
         if (manufacturerResponse.getStatusCode() != HttpStatus.OK) {
@@ -55,6 +65,13 @@ public class ICSManufacturerProductService {
         ManufacturerProductDto response = new ManufacturerProductDto(manufacturer, Arrays.asList(products));
 
         return ResponseEntity.ok(response);
+    }
+    public ResponseEntity<?> productBreakerFallback(long id, Throwable t) {
+        List<String> list = new ArrayList<>();
+        list.add("Dummy Product due to circuit break");
+
+        // Return a fallback ResponseEntity
+        return ResponseEntity.ok(list);
     }
 
 

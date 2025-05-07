@@ -1,0 +1,57 @@
+Fault Tolance
+ability to continuw operations without any interruption
+Ressiliance
+it is the ability to recover from difficulties
+techniques
+retries-->retries the request automatically in case of failure
+Rate Limiting-->set limit of API calls for secure DOS attack
+BulkHeads-->if 1 service has high load it woul not effect on other services
+circuit breaker--> if a service is connect to service b and b has error then
+                   break circuit and fallback(a manual responce send back in case of failure)
+                    to overcome this problem
+TimeOut-->give choice to client in case of failure like resend or fallback
+
+Implementation
+                     Resilience4J
+
+it is a light weight easy to use library for fault tolerance
+Resialiance4j modules
+
+1-Retry Module--> retry the functions in case of failure
+2-Rate Limiter--> set the Limit of APi Calls
+3-Bulk head module
+4-circuit breaker
+implementation in ISC where manufactuer service communicates with product servie
+so wee will add circuit breaker on manufacturer in getmanufacturerdetails
+add dependencies    resiliance 4j and apring boot starter aop
+<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-circuitbreaker-resilience4j</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-aop</artifactId>
+
+		</dependency>
+
+add configurations in yaml
+adda annotation on methed where you want to applu circuit breaker  @CircuitBreaker(name="ProductBreaker")
+rerun service
+we can read circuitbreaker working  through actuator endpoints
+http://localhost:8081/actuator/circuitbreakers
+
+
+FallBack Mechanism
+if error occur we will not show error to user
+we prevent it through fallback mechanism
+in fall back mechanism we reroute the user to other endpoinyt
+@CircuitBreaker(name="productBreaker"  fallbackMethod="productBreakerFallback")
+i have to define this method  productBreakerFallback(){}
+create the metod and return dummy values like expected output
+
+Retry Mechanism
+if network call is fail we will retry if we will succeed
+@Retry(name="productBreaker"  fallbackMethod="productBreakerFallback")
+yaml configurations
+
