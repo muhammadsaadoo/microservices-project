@@ -6,6 +6,7 @@ import com.trustify.manufacturer_service.entities.Manufacturer;
 import com.trustify.manufacturer_service.entities.product.Product;
 import com.trustify.manufacturer_service.repositories.ManufacturerRepo;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
 import io.github.resilience4j.retry.annotation.Retry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -39,7 +40,9 @@ public class ICSManufacturerProductService {
 
 //    @CircuitBreaker(name="productBreaker",
 //            fallbackMethod="productBreakerFallback")
-@Retry(name="productRetry",
+//@Retry(name="productRetry",
+//            fallbackMethod="productBreakerFallback")
+    @RateLimiter(name="productRateLimiter",
             fallbackMethod="productBreakerFallback")
     public ResponseEntity<?> getManufacturerDetails(long id) {
         System.out.println("attempt : "+ ++attempts);

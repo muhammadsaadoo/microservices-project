@@ -55,3 +55,13 @@ if network call is fail we will retry if we will succeed
 @Retry(name="productBreaker"  fallbackMethod="productBreakerFallback")
 yaml configurations
 
+
+Rate Limiting
+prevent unecessery api callss to down the sevice
+prevent multiple login attempts like brute forc attack
+DDos(distributed denial of service attack)
+so we use Resilience4j to apply rate lijmiting
+Implementation
+apply configurations
+Jmeter download --> for measure load on service
+http://localhost:8081/manufacturer/manufacturer-details/manufacturer-id/3
