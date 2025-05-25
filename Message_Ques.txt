@@ -1,0 +1,74 @@
+message queue
+message queue is a form of asunchronous service to service communication used in serverles
+-and microservice archtecture
+when tow services communicaing each other they should be up
+if one is down there is no comunication between them and message will fail to delever
+for example
+
+           manufacturer service----->message------>product service
+
+if product service is fail the message will be fail to deliver
+so message queue comes in pitcure
+
+manufacturer service------------------>message queue ---------------------->product service
+    producer              message                              message          consumer
+
+so message is stored in message queue
+when the service is up the it will take message from messsage queue
+
+nedd of them
+decoupling
+asynchronous communication
+event driven archtecture
+......................................................................................
+message brokers
+RabbitMQ
+Apache kafka
+ActiveMQ
+amazone simple queue service
+
+
+
+so we use RabbitMQ because its open source
+download and install the RabbitMQ but we use Docker
+docker compose file configurations
+go to docker compose directory from terminal
+docker compose up -d
+it will start pulling docker image and start running
+goto browser
+localhost://15672
+login
+username and passwork   guest   guest
+
+Implementaton
+add dependencies
+                       <dependency>
+                       			<groupId>org.springframework.amqp</groupId>
+                       			<artifactId>spring-rabbit-test</artifactId>
+                       			<scope>test</scope>
+                       		</dependency>
+                       		<dependency>
+                       			<groupId>org.springframework.boot</groupId>
+                       			<artifactId>spring-boot-starter-amqp</artifactId>
+
+                       		</dependency>
+                       		<dependency>
+                       			<groupId>org.springframework.boot</groupId>
+                       			<artifactId>spring-boot-starter-aop</artifactId>
+
+                       		</dependency>
+spring for rabbitMQ
+yaml configurations
+create a RabbitMQConfiguration Class
+create a dto class for transsfer message
+create a class named messagproducer
+ok now our producer service is ready to produce message
+
+now configure the consumer
+rabbit configuration will be same
+dto is same if needed
+create consumer class
+one is bublish the message then consume by ither service
+
+
+
