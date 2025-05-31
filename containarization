@@ -1,0 +1,23 @@
+we will coantanirize all the services in docker
+we will manage it through docker-compose
+start
+  change profile because u cant run service on localhost
+  so we need to change profile   dev to docker
+  change database properties from localhost to postgres
+  change eurika properties from localhost to service registry
+  in feign client in code we use the name of service
+
+now we will run with docker
+build image
+./mvnw spring-boot:build-image  "-Dspring-boot.build-image.imageName=muhammadsaadoo/service-registry"
+
+ service registry done      muhammadsaadoo/service-registry
+
+docker run -d \
+  --name auth-service-test \
+  -p 8086:8086 \
+  --env SPRING_PROFILES_ACTIVE=docker \
+  --env SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/auth-db \
+  --env SPRING_DATASOURCE_USERNAME=saad \
+  --env SPRING_DATASOURCE_PASSWORD=123 \
+  muhammadsaadoo/auth-service:latest

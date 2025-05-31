@@ -1,0 +1,31 @@
+how to deploy microservices application
+testing--->staging-->production
+spring boot execution process
+     code compilation
+     running the main class
+     classpath and dependencies setting
+     atart embeded  servers
+     source code changes
+     development mode
+Packaging
+creating a single unit for distributing and run
+ package/jar include
+     bytecode
+     dependent libraries
+     configurations
+
+main use 2 build tools for managing the build
+1-maven  old
+           it uses the pom(project object model) for build
+2- gradle
+           it uses build.gradle
+
+we use maven wrapper for build application
+we can use maven command without installing mavin
+it is a cmd or shall for running the commands
+commands
+  mvn clean-->remove all the builds that are created before
+  mvn package-->package the aplication run tests install all dependencies and make jar
+  mvn clean package--> combine upper two command first clean then build new file
+
+start creating packages

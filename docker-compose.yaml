@@ -48,36 +48,11 @@ services:
 
   auth-service:
     build:
+      context: ./auth-service/auth-service
       dockerfile: Dockerfile
     container_name: auth_service_container
     ports:
       - "8080:8080"
-    depends_on:
-      - postgres
-    networks:
-      - postgres
-    restart: unless-stopped
-
-  manufacturer-service:
-    build:
-      context: C:\Users\Abdul\Desktop\Mic\new_Archetecture\working_services\manufacturer-service\manufacturer-service
-      dockerfile: Dockerfile
-    container_name: manufacturer_service_container2
-    ports:
-      - "8081:8081"
-    depends_on:
-      - postgres
-    networks:
-      - postgres
-    restart: unless-stopped
-
-  product-service:
-    build:
-      context: C:\Users\Abdul\Desktop\Mic\new_Archetecture\working_services\product-service\product-service
-      dockerfile: Dockerfile
-    container_name: product_service_container
-    ports:
-      - "8082:8082"
     depends_on:
       - postgres
     networks:
