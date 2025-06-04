@@ -59,6 +59,7 @@ services:
     restart: unless-stopped
 
   manufacturer-service:
+    image: manufacturer-service
     build:
       context: C:\Users\Abdul\Desktop\Mic\new_Archetecture\working_services\manufacturer-service\manufacturer-service
       dockerfile: Dockerfile
@@ -80,6 +81,43 @@ services:
       - "8082:8082"
     depends_on:
       - postgres
+    networks:
+      - postgres
+    restart: unless-stopped
+
+  service-registry:
+    image: service-registry
+    build:
+      context: C:\Users\Abdul\Desktop\Mic\new_Archetecture\working_services\service-registry\service-registry
+      dockerfile: Dockerfile
+    container_name: service_registry_container
+    ports:
+      - "8761:8761"
+    networks:
+      - postgres
+    restart: unless-stopped
+
+
+  gateway-service:
+    image: gateway-service
+    build:
+      context: C:\Users\Abdul\Desktop\Mic\new_Archetecture\working_services\gateway_service\gateway-service
+      dockerfile: Dockerfile
+    container_name: gateway_service_container
+    ports:
+      - "8085:8085"
+    networks:
+      - postgres
+    restart: unless-stopped
+
+  config-server:
+    image: config-server
+    build:
+      context: C:\Users\Abdul\Desktop\Mic\new_Archetecture\working_services\config_server\config_server
+      dockerfile: Dockerfile
+    container_name: config_server_container
+    ports:
+      - "8084:8084"
     networks:
       - postgres
     restart: unless-stopped
